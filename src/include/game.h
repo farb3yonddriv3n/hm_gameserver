@@ -20,6 +20,8 @@
 
 #define LOG_MECHANICS "{Mechanics}: "
 
+#define HM_GAMESERVER
+
 #include <hsl_cardname.h>
 #include <levelup.h>
 #include <sections.h>

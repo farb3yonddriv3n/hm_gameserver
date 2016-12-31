@@ -7,7 +7,10 @@ SOURCES=$(shell find src -type f -iname '*.c')
 
 OBJECTS=$(foreach x, $(basename $(SOURCES)), $(x).o)
 
-all: script hm_gameserver
+all: base script hm_gameserver
+
+base:
+	$(MAKE) -C ../hm_base target=game
 
 hm_gameserver:
 	$(CC) $(SOURCES) $(CFLAGS) $(LIBPATH) -o $(TARGET) $(LIBS)
