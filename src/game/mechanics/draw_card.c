@@ -40,13 +40,6 @@ void mechanics_draw_card(struct conn_client_s *c, struct chooseoption_s *opt, st
         hm_log(LOG_DEBUG, c->log, "%s Drawing card %d from deck %d", LOG_MECHANICS, card->id, card->parent->deck_copy->controller);
     }
 
-    // shield block
-    if(flag(&attacker->state, CARD_ARMOR5, FLAG_ISSET)) {
-        deck->hero->armor += 5;
-        flag(&(deck->hero->state), MECHANICS_ARMOR, FLAG_SET);
-        LIST_ADD(*defenders, clitem, deck->hero);
-    }
-
     if(flag(&attacker->state, CARD_SPELL, FLAG_ISSET) && !flag(&attacker->state, CARD_HEROPOWER, FLAG_ISSET)) {
         flag(&attacker->state, CARD_DESTROYED, FLAG_SET);
         cards_reorder(p, deck, attacker, opt->position, 0);
