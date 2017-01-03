@@ -19,7 +19,6 @@
 
 void card_to_deck(struct card_s *card)
 {
-    //card->state &= ~CARD_HAND;
     flag(&card->state, CARD_HAND, FLAG_UNSET);
 }
 
@@ -205,19 +204,10 @@ void cards_board_destroyed_reorder(struct deck_s *deck, int position)
                 !flag(&deck->cards[i]->state, CARD_SPELL, FLAG_ISSET) &&
                 deck->cards[i]->zone_position > position) {
             --(deck->cards[i]->zone_position);
-            //add_tagchange(data, ZONE_POSITION, --(deck->cards[i]->zone_position), deck->cards[i]->id);
             hm_log(LOG_DEBUG, lg, "Decreased board zone position %d for card: %d", deck->cards[i]->zone_position, deck->cards[i]->id);
         }
     }
 }
-
-/*
-   void card_set_exhausted(struct card_s *card)
-   {
-//card->state |= CARD_EXHAUSTED;
-flag(&card->state, CARD_EXHAUSTED, FLAG_SET);
-}
-*/
 
 void card_free(struct card_s *card, unsigned int flags)
 {
@@ -271,7 +261,6 @@ void cards_unset_flag(struct deck_s *deck, enum flags_e flags)
     int i;
 
     for(i = 0; i < deck->ncards; i++) {
-        //hm_log(LOG_DEBUG, lg, "card %d unsetting state %d", deck->cards[i]->id, flags);
         flag(&deck->cards[i]->state, flags, FLAG_UNSET);
     }
 }
@@ -431,33 +420,16 @@ void cards_reorder_board_owner(struct deck_s *deck, u64 held, u64 position)
             continue;
         }
 
-
         // when card on board is positioned equally or higher than new card
         if(flag(&deck->cards[i]->state, CARD_BOARD, FLAG_ISSET) &&
                 !flag(&deck->cards[i]->state, CARD_DESTROYED, FLAG_ISSET) &&
                 !flag(&deck->cards[i]->state, CARD_SPELL, FLAG_ISSET) &&
                 deck->cards[i]->zone_position >= position) {
-            /*
-               hm_log(LOG_DEBUG, lg, "Board reorder for card %d position %d", deck->cards[i]->id, deck->cards[i]->zone_position);
-
-               if((deck->cards[i]->zone_position - 1) < (MAX_BOARD - 1)) {
-               */
             ++(deck->cards[i]->zone_position);
 
             deck->board_position[ (deck->cards[i]->zone_position - 1) ] = deck->cards[i]->id;
-
-            /*
-               hm_log(LOG_DEBUG, lg, "\t\tnew zone position: %d for card %d", (deck->cards[i]->zone_position), (deck->cards[i]->id));
-               } else {
-
-               hm_log(LOG_DEBUG, lg, "\t\tcard %d to be destroyed", (deck->cards[i]->id));
-               flag(&deck->cards[i]->state, CARD_DESTROYED, FLAG_SET);
-               }
-               */
         }
     }
-
-    //cards_dump_board(deck);
 }
 
 void cards_reorder_hand_owner(struct deck_s *deck, u64 id)
@@ -918,31 +890,6 @@ void deck_remove_attachment(struct deck_s *deck, struct deck_s *opponent, const 
 
     for(card = cards; card != NULL; card = card->next) {
         card_remove_attachment(deck, opponent, card->card, name);
-        /*
-           for(prev_child = NULL, child = card->card->attached_children; child != NULL; prev_child = child, child = child->next) {
-           child_card = card_get(deck, NULL, child->id);
-
-           assert(child_card);
-           hm_log(LOG_DEBUG, lg, "\t\t - checking attachment [%s] [%s](%d)", name, child_card->entity->name, child_card->id);
-           if(strcmp(child_card->entity->name, name) == 0) {
-           if(prev_child == NULL) {
-           card->card->attached_children = child->next;
-           } else {
-           prev_child->next = child->next;
-           }
-
-           flag(&(child_card->state), MECHANICS_DETACH, FLAG_SET);
-           flag(&(child_card->state), CARD_DESTROYED, FLAG_SET);
-
-           hm_log(LOG_DEBUG, lg, "Removing attachment [%s](%d) for card [%s](%d)", child_card->entity->desc, child_card->id, card->card->entity->desc, card->card->id);
-
-           flag(&(child_card->state), -1, FLAG_DUMP);
-
-           free(child);
-           break;
-           }
-           }
-           */
     }
 }
 
@@ -1028,17 +975,10 @@ void card_destroy(struct card_s *card, struct deck_s *deck, int to_hand)
         deck->spellpower--;
     }
 
-    /*
-       if(card->attachment) {
-       deck_remove_attachment(deck, opponent, card->attachment);
-       }
-       */
-
     if(!to_hand) {
         flag(&card->state, CARD_DESTROYED, FLAG_SET);
     }
 
-    //deck_destroy_modifier(deck, card);
     cards_board_destroyed_reorder(deck, card->zone_position);
 
     {
