@@ -253,6 +253,8 @@ for(m_holder = m_all; m_holder != NULL; m_holder = m_holder->next) {\
 
 #define card(m_list) (m_list->card)
 
+#define cardname_equal(m_dst, m_src) (strcmp((m_dst->entity->name), m_src) == 0)
+
 #define hsl_card(m_target)\
     card_get(HSL_deck_player, HSL_deck_opponent, m_target)
 
