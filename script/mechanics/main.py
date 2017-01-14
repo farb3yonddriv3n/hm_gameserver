@@ -70,7 +70,7 @@ if __name__ == "__main__":
     p = parser.parser()
 
     cb = Bucket('couchbase://localhost/hbs', password='aci')
-    loaded = cb.get('u:mod_woa').value
+    loaded = cb.get('u:mod_dota').value
 
 
     for c in loaded['cards']:
@@ -78,7 +78,7 @@ if __name__ == "__main__":
         for k in c:
             if k[0] == '__name':
                 name = k[1]
-            if k[0] == '__code':        # code comes laters than name
+            if k[0] == '__code':        # code comes later than name
                 p.parse_card(k[1], name)
 
     '''

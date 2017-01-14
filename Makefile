@@ -1,4 +1,4 @@
-CFLAGS=-Wall -g -Isrc/include -Isrc/include/proto -I../hm_base/src/include -I/usr/include/json-c/ -Iscript/mechanics/include -DTURNOFF_TIMER -DMANA_ZERO #-DTEST_DECK #-DSPELL_ZERO_MANA
+CFLAGS=-Wall -DMOD_$(mod) -g -Isrc/include -Isrc/include/proto -I../hm_base/src/include -I/usr/include/json-c/ -Iscript/mechanics/include #-DTURNOFF_TIMER -DMANA_ZERO -DTEST_DECK -DSPELL_ZERO_MANA
 LIBS=-lev -lhmbase -lm -ljson-c -lcouchbase
 LIBPATH=-L../hm_base/lib
 TARGET=hm_gameserver

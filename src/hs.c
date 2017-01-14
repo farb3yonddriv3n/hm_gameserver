@@ -15,6 +15,7 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
    */
+#include <mods.h>
 #include <game.h>
 
 enum board_e {
@@ -135,8 +136,8 @@ static void retrieve_deck_cb(struct cbop_s *cbop)
 
 
         char key1[128], key2[128];
-        snprintf(key1, sizeof(key1), "u:deck_%s", w->p1->hbs_id);
-        snprintf(key2, sizeof(key2), "u:deck_%s", w->p2->hbs_id);
+        snprintf(key1, sizeof(key1), "u:deck_%s_%s", MOD_URL, w->p1->hbs_id);
+        snprintf(key2, sizeof(key2), "u:deck_%s_%s", MOD_URL, w->p2->hbs_id);
 
         assert(hp);
 
@@ -201,7 +202,7 @@ void retrieve_deck(struct watcher_s *w, int player)
         k = w->p2->hbs_id;
     }
 
-    snprintf(key, sizeof(key), "u:deck_%s", k);
+    snprintf(key, sizeof(key), "u:deck_%s_%s", MOD_URL, k);
 
     hm_log(LOG_DEBUG, lg, "Retrieving deck for player: %d", player);
 
