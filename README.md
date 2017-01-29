@@ -16,3 +16,7 @@ hm_gameserver is compatible with HearthStone client 5.2.x.
 ## Compilation ##
 
 cd hm_gameserver && make
+
+# This is not a standalone project!
+
+[hm_gameserver](https://github.com/farb3yonddriv3n/hm_gameserver) is part of [hearthmod software stack](https://github.com/hearthmod/hearthmod)
